@@ -1,0 +1,20 @@
+# Compiled
+*.elc
+
+# Packaging
+.cask
+
+# Backup files
+*~
+
+# Undo-tree save-files
+*.~undo-tree
+
+# Emacs cache
+\#*\#
+
+# ?
+/elpa/
+
+# Browser cache type of thing?
+/url/
