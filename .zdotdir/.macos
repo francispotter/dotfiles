@@ -1,0 +1,2 @@
+# alias copypwd='echo -n "$(pwd)" | pbcopy'
+alias git=/opt/homebrew/bin/git

@@ -1,0 +1,6 @@
+.zsh_history
+.zcompdump
+.zsh_sessions/
+\#.zshrc\#
+.zlocal
+.zsh_history

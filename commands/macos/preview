@@ -1,0 +1,6 @@
+#!/bin/bash
+if [[ $1 == *".pdf" ]]; then
+  /usr/bin/open -a "Negative" "$@"
+else
+  /usr/bin/open "$@"
+fi

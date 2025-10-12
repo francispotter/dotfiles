@@ -1,0 +1,81 @@
+dyngle:
+  operations:
+    glab-mr:
+      expressions:
+      steps:
+        - git branch --show-current => branch-name
+        - glab api 'projects/:id/merge_requests?state=opened&branch={{branch-name}}'
+    busy-next:
+      - clear
+      - busy pick main
+      - busy pick urgent
+      - busy pick first
+    busy-top-url:
+      - busy view 1 -f url
+    backup-busy:
+      expressions:
+        busy-data-dir: Path('.busy')
+      steps:
+        - git -C {{busy-data-dir}} add .
+        - git -C {{busy-data-dir}} commit -am '.'
+        - git -C {{busy-data-dir}} push
+    backup-journal:
+      expressions:
+        journal-dir: Path('journal')
+      steps:
+        - git -C {{journal-dir}} add .
+        - git -C {{journal-dir}} commit -am '.'
+        - git -C {{journal-dir}} push
+    dir:
+      - ls -al
+    gg:
+      - git add .
+      - git commit -am '.'
+    start-mr:
+      expressions:
+        mr-title: args[0]
+        branch-name-dated: formatted(datetime.now()) + '-' + resolve('branch-name-generated')
+      steps:
+        - mr-title -> kwark branch => branch-name-generated
+        - >-
+            glab mr create --title "{{mr-title}}" --create-source-branch --source-branch "{{branch-name-dated}}"
+            --description '' --remove-source-branch
+        - git fetch
+        - git checkout {{branch-name-dated}}
+    glab-list-my-issues:
+      # Assumes in a Git/GitLab directory - also my GitLab userid is hardcoded here
+      steps:
+        - glab api 'projects/:id/issues?assignee=fpotter&state=opened' => issues-json-full
+        - issues-json-full -> jq 'map({iid,title})' => issues-json-brief
+        - issues-json-brief -> yq -p json
+    glab-list-my-issues-ps:
+      # Assumes in a Git/GitLab directory - also my GitLab userid is hardcoded here
+      steps:
+        - glab api 'projects/:id/issues?assignee_username=fpotter&state=opened&labels=PSD%20Workflow%3A%3AIn%20Progress' => issues-json-full
+        - issues-json-full -> jq 'map({iid,title})' => issues-json-brief
+        - issues-json-brief -> yq -p json
+    glab-find-my-issue:
+      # Assumes in a Git/GitLab directory - also my GitLab userid is hardcoded here
+      expressions:
+        query: args[0]
+        hits: "[i for i in yaml.safe_load(issues_yaml_brief) if resolve('query') in i['title']]"
+      steps:
+        - glab api 'projects/:id/issues?assignee=fpotter&state=opened' => issues-json-full
+        - issues-json-full -> jq 'map({iid,title})' => issues-json-brief
+        - issues-json-brief -> yq -p json => issues-yaml-brief
+        - echo "{{hits}}"
+    busy-list-my-issues:
+      expressions:
+        client-tag: args[0]
+      steps:
+        - busy view {{client-tag}} -f num,tag.urgent,val.i,base
+    correlate-issues:
+      # Assumes in a Git/GitLab directory - also my GitLab userid is hardcoded here
+      expressions:
+        tag: args(0)
+        issues: json.loads(issues_json_full)
+        busy-tasks: yaml.safe_load(busy_tasks_yaml_full)
+      steps:
+        - glab api 'projects/:id/issues?assignee=fpotter&state=opened' => issues-json-full
+        - busy dump {{tag}} => busy-tasks-yaml-full
+        - echo '{{busy-tasks}}'

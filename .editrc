@@ -1,0 +1,15 @@
+# Word movement (using Ctrl+arrows)
+bind "^[[1;9D" ed-prev-word      # Ctrl+Left for previous word
+bind "^[[1;9C" em-next-word      # Ctrl+Right for next word
+bind "^[[1;10D" ed-prev-word      # Ctrl+Shift+Left for previous word
+bind "^[[1;10C" em-next-word      # Ctrl+Shift+Right for next word
+
+# Line navigation (using Shift+arrows)
+bind "^[[1;5D" ed-move-to-beg    # Shift+Left for beginning of line
+bind "^[[1;5C" ed-move-to-end    # Shift+Right for end of line
+bind "^[[1;6D" ed-move-to-beg    # Shift+Left for beginning of line
+bind "^[[1;6C" ed-move-to-end    # Shift+Right for end of line
+
+# Character movement (Shift+arrows alternative notation)
+bind "\033[1;2D" ed-prev-char    # Shift+Left for previous character
+bind "\033[1;2C" ed-next-char    # Shift+Right for next character
