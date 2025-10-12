@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo cp $HOME/.zdotdir/commands/macos/preview /usr/local/bin/
+sudo cp $HOME/.dotfiles/commands/macos/preview /usr/local/bin/
