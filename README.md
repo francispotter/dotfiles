@@ -1,10 +1,9 @@
 # DotFiles - Francis Potter
 
- Personal configurations for iTerm, ZSH, Git CLI, Python console, and Dyngle
+ Personal configurations for iTerm, ZSH, Git CLI, and Python console
 
 ## General contents
 
-- Personal configurations for ZSH, Emacs, TMux, iTerm, Python console, and Dyngle
 - Git-related aliases
 - Developer workflow functions using the `glab` CLI
 - Git, Python venv, and subshell information in the prompt where appropriate
@@ -12,7 +11,6 @@
 - Various other bits and pieces we find useful
 - An `.editrc` file (symlink to your home) for MacOS Python console use
 - A JSON file of iTerm key bindings (use the import button)
-- A [Dyngle](https://pypi.org/project/dyngle/) config file (install Dyngle separately)
 
 ## ZSH
 

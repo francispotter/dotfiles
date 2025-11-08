@@ -439,17 +439,6 @@ glabiupbusy() {
 }
 
 
-
-# Use Kwark to invent a branch name to match the MR title
-
-mrk() {
-  TITLE=$1
-  BRANCH=$(echo "$TITLE" | kwark branch)
-  dyngle start-mr "$TITLE" "$BRANCH"
-}
-
-  
-
 glabi2wip() {
   glab api "projects/:id/issues/$1" | jq -r '.description' > WIP.md
 }
@@ -607,7 +596,3 @@ unset HISTFILE SAVEHIST
 
 # https://gitlab.com/wizlib/swytchit
 if [[ -n $SWYTCHITRC ]]; then source $SWYTCHITRC; fi
-
-# Dyngle
-
-alias d="dyngle"
