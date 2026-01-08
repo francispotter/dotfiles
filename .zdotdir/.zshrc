@@ -5,6 +5,11 @@
 
 alias dr="dyngle run"
 
+# Git commit with meaningless message and push
+ggp() { dyngle run git-commit-push-all-dot }
+
+# Next item in my queue
+nn() { dyngle run busy-next }
 
 # ---- emacs ----
 
@@ -105,9 +110,6 @@ ggk() {
     echo $MESSAGE
     git commit -am "$MESSAGE"
 }
-
-# Git commit with meaningless message and push
-ggp() { dyngle run git-commit-push-all-dot }
 
 # Delete unused branches
 git-clean-branches() {
@@ -349,22 +351,6 @@ if [ -d "$HOME/.cargo/bin" ]; then
 fi
 
 
-# ---- My wrap process ----
-
-wrap1() {
-  busy view --unique client+$CLIENT val:i$ISSUE -s done -f num,base
-  echo '---'
-  busy view --unique client+$CLIENT val:i$ISSUE -s todo -f num,base
-  echo '---'
-  busy view --unique client+$CLIENT val:i$ISSUE -s plan -f num,base
-}
-
-wrap2() {
-  busy view --unique -s multi -f checkbox,base client+$CLIENT val:i$ISSUE | pbcopy
-  glab issue update $ISSUE --description -
-}
-
-
 # ---- Developer workflow using glab cli ----
 
 # Loop through my issues
@@ -591,3 +577,4 @@ unset HISTFILE SAVEHIST
 
 # https://gitlab.com/wizlib/swytchit
 if [[ -n $SWYTCHITRC ]]; then source $SWYTCHITRC; fi
+
