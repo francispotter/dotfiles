@@ -107,12 +107,7 @@ ggk() {
 }
 
 # Git commit with meaningless message and push
-ggp() {
-    echo "git commit -am '.'"
-    git commit -am '.'
-    echo "git push"
-    git push
-}
+ggp() { dyngle run git-commit-push-all-dot }
 
 # Delete unused branches
 git-clean-branches() {
