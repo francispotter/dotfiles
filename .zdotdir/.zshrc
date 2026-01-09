@@ -9,7 +9,11 @@ alias dr="dyngle run"
 ggp() { dyngle run git-commit-push-all-dot }
 
 # Next item in my queue
-nn() { dyngle run busy-next }
+nn() {
+  dyngle run busy-next
+  zsh
+  busy done
+}
 
 # ---- emacs ----
 
