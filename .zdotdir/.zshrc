@@ -5,8 +5,11 @@
 
 alias dr="dyngle run"
 
-# Git commit with meaningless message and push
+
+# Git commits
+
 ggp() { dyngle run git-commit-push-all-dot }
+ggk() { dyngle run git-commit-ai }
 
 # Next item in my queue
 nn() {
