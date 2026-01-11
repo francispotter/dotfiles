@@ -105,18 +105,6 @@ vernumpush() {
 
 # ---- Git shortcuts ----
 
-# Git commit with meaningless message
-gg() {
-    echo "git commit -am '.'"
-    git commit -am '.'
-}
-
-# Git commit with kwark message
-ggk() {
-    MESSAGE="$(git diff --staged | kwark commit)"
-    echo $MESSAGE
-    git commit -am "$MESSAGE"
-}
 
 # Delete unused branches
 git-clean-branches() {
