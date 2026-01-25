@@ -5,7 +5,7 @@
 if [ -f /etc/debian_version ]; then
     echo "Detected Debian-based Linux. Installing required packages..."
     sudo apt-get update
-    sudo apt-get install -y emacs zsh tmux
+    sudo  DEBIAN_FRONTEND=noninteractive apt-get install -y emacs zsh tmux
 fi
 
 rm -rf ~/.zdotdir ~/.emacs.d ~/.dotfiles ~/.editrc ~/.tmux.conf
