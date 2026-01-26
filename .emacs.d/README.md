@@ -15,12 +15,3 @@ Includes:
 
 We override a lot of behaviour and key bindings here, so if you have muscle memory for traditional emacs keys, beware!
 
-
-## Installation
-
-On MacOS:
-
-```
-curl https://gitlab.com/francispotter/emacs/-/raw/master/install.sh | sh
-```
-
