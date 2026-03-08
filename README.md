@@ -27,6 +27,6 @@ So to take full advantage of the `z` command, most users would need to fork the 
 ## Installation
 
 ```
-curl https://lab.steamwiz.io/ops/dotfiles/-/raw/main/install.sh | sh
+curl https://lab.shelbourne.ca/ops/dotfiles/-/raw/main/install.sh | sh
 ```
 

@@ -20,7 +20,7 @@ if [ "$(uname)" = "Darwin" ]; then
 fi
 
 rm -rf ~/.zdotdir ~/.emacs.d ~/.dotfiles ~/.editrc ~/.tmux.conf
-git clone https://lab.steamwiz.io/ops/dotfiles.git ~/.dotfiles
+git clone https://lab.shelbourne.ca/ops/dotfiles.git ~/.dotfiles
 ln -s ~/.dotfiles/.zdotdir ~/.zdotdir
 ln -s ~/.dotfiles/.emacs.d ~/.emacs.d
 ln -s ~/.dotfiles/.editrc ~/.editrc
