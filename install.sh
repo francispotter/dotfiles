@@ -20,7 +20,7 @@ if [ "$(uname)" = "Darwin" ]; then
 fi
 
 rm -rf ~/.zdotdir ~/.emacs.d ~/.dotfiles ~/.editrc ~/.tmux.conf
-git clone https://lab.shelbourne.ca/ops/dotfiles.git ~/.dotfiles
+git clone https://github.com/francispotter/dotfiles.git ~/.dotfiles
 ln -s ~/.dotfiles/.zdotdir ~/.zdotdir
 ln -s ~/.dotfiles/.emacs.d ~/.emacs.d
 ln -s ~/.dotfiles/.editrc ~/.editrc
@@ -33,6 +33,7 @@ fi
 
 if [ "$(uname)" = "Darwin" ]; then
   sudo chsh -s /bin/zsh $(whoami)
+  sudo cp $HOME/.dotfiles/commands/macos/preview /usr/local/bin/
 fi
 
 exec zsh

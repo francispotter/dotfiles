@@ -1,9 +1,14 @@
-# ZSHRC for FPotter for MacOS or Linux
+# ZSHRC for Francis Potter for MacOS or Linux
+
+# YMMV - Some settings might only apply if you install all the same tools
 
 
-# We're replacing a lot of shortcut-type scripts with dyngle commands
+# Easy-to-type shortcuts
 
 alias dr="dyngle run"
+alias ll="ls -al"
+alias xx="exit"
+alias finddir="find . -type d -name "
 
 
 # Git commits
@@ -50,22 +55,6 @@ jl() {
 }
 
 
-# ---- contacts ----
-
-# Maintain a YAML file with contact information
-
-# CONTACTS="$HOME/.contacts"
-
-# cc() { gedit $CONTACTS }
-
-
-# Contact by context
-
-# cq() {
-#    cat $CONTACTS | yq "with_entries(select(.value.context[] == \"$1\"))"
-# }
-
-
 # ---- Encrypted backup via AWS S3 ----
 
 backup() {
@@ -90,47 +79,8 @@ restore() {
 }
 
 
-# ---- glab shortcuts for GitLab ----
-
-# Increment version using VerNum and GitLab CI
-
-vernumrun() {
-    glab ci run --variables VERSION_INCREMENT:$1
-}
-
-vernumpush() {
-    git push -o ci.variable="VERSION_INCREMENT=$1"
-}
-
-
-# ---- Git shortcuts ----
-
-
-# Delete unused branches
-git-clean-branches() {
-    git fetch --prune
-    git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -n 1 git branch -D
-}
-
-
-
-# Check sanitization of a directory for e.g. a client name
-sanitize() {
-  for arg in "$@"; do
-    grep -irl --exclude-dir .git $arg .
-  done
-}
-
-# Sync a whole directory with Git, hoping for the best
-gsync() {
-  DIR="${1}"
-  git -C $DIR pull -X ours || return
-  git -C $DIR add -A
-  git -C $DIR commit -am '.'
-  git -C $DIR push
-}
-
 # Edit a file in a Git repo, keeping it synced with a simple commit message
+
 gedit() {
   DIR="${1%/*}"
   git -C $DIR pull || return
@@ -140,10 +90,15 @@ gedit() {
   git -C $DIR push
 }
 
-# --- Misc shortcuts ----
 
-alias ll="ls -al"
-alias xx="exit"
+# Edit this file and start using it right away
+
+alias z="gedit $ZDOTDIR/.zshrc; source $ZDOTDIR/.zshrc"
+
+
+
+# Misc shortcuts
+
 
 # Browse a URL
 browse() {
@@ -165,14 +120,7 @@ rnm() {
 }
 
 
-# ---- Edit this file and start using it right away ----
-
-alias z="gedit $ZDOTDIR/.zshrc; source $ZDOTDIR/.zshrc"
-
-
-# --- Terminal customization ----
-
-# Based on personal MacOS iTerm settings
+# Terminal customization based on personal MacOS iTerm settings
 
 bindkey -e
 
@@ -215,12 +163,10 @@ zstyle ':completion:*' completer _expand_alias _complete _ignored
 zstyle ':completion:*' regular true
 
 
-# ---- Prompt magic ----
+# Prompt magic adapted from code found at <https://gist.github.com/1712320>.
 
-# Adapted from code found at <https://gist.github.com/1712320>.
 setopt prompt_subst
 autoload -U colors && colors
-
 
 # Git functionality
 GIT_PROMPT_SYMBOL="%{$fg[blue]%}±"
@@ -296,26 +242,24 @@ short_cwd() {
 }
 
 # OS and machine name
-
 if [ -f ~/.preferred-hostname ]; then
     PROMPT_BASE="$(cat ~/.preferred-hostname)"
 else
     PROMPT_BASE="${$(hostname):0:10} ${$(uname -s):0:6}"
 fi
 
-
 # Put Python info, Git info, and our smart PWD into the prompt
 export PS1=$'%{$fg[green]%}${PROMPT_BASE} ($(whoami))%{$reset_color%} $(git_prompt_string) %{$fg[cyan]%}$(py3_prompt)%{$reset_color%}\n%{$fg[green]%}$(short_cwd) $(shell_level)%{$reset_color%} '
 
 
-# ---- Terminal window title ----
-
 # Make it easy to change the title
+
 title() {
    echo -ne "\033]0;$*\007"
 }
 
 # Change title with SSH
+
 ssh() {
    /usr/bin/ssh "$@"
    title "Z shell"
@@ -325,177 +269,16 @@ ssh() {
 title "Z shell"
 
 
-# ---- MacOS specific ----
-
-# Set up our environment for Homebrew on MacOS
-
-if [ -f "/opt/homebrew/bin/brew" ]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-
-
 # Support pipx applications
+
 export PATH="$PATH:$HOME/.local/bin"
 
-# And little scriptlettes I might whip up
-export PATH="$PATH:$HOME/.local/quick"
 
 # Support Rust/Cargo
+
 if [ -d "$HOME/.cargo/bin" ]; then
   export PATH="$HOME/.cargo/bin:$PATH"
 fi
-
-
-# ---- Developer workflow using glab cli ----
-
-# Loop through my issues
-glabiloop() {
-  username=$(glab api user | jq -r '.username')
-  issues_json=$(glab api projects/:id/issues'?'assignee_username="$username"'&'per_page=100)
-  iids=($(jq -r '.[]|.iid' <<< "$issues_json"))
-  for iid in "${iids[@]}"; do
-    title=$(jq -r ".[]|select(.iid==${iid})|.title" <<< $issues_json)
-    echo "$iid" "$title"
-    ISSUE=$iid zsh
-    if (( $? != 0 )); then
-      break
-    fi
-done
-}
-
-# Loop through my issues
-glabbusystatus() {
-  DATE=$1
-  username=$(glab api user | jq -r '.username')
-  issues_json=$(glab api projects/:id/issues'?'assignee_username="$username"'&'per_page=100)
-  iids=($(jq -r '.[]|.iid' <<< "$issues_json"))
-  echo "## Completed since $DATE"
-  for iid in "${iids[@]}"; do
-    title=$(jq -r ".[]|select(.iid==${iid})|.title" <<< $issues_json)
-    echo "$title (Issue #${iid})"
-    busy view --unique -s done -t '- {base}' client+$CLIENT val:i$iid donemin:$DATE
-    echo
-  done
-  echo
-  echo "## In progress"
-  for iid in "${iids[@]}"; do
-    title=$(jq -r ".[]|select(.iid==${iid})|.title" <<< $issues_json)
-    echo "$title (Issue #${iid})"
-    busy view --unique -t '- {base}' client+$CLIENT val:i$iid
-    echo
-  done
-}
-
-
-# Labels for this project
-glablabels() {
-  glab api 'projects/:id/labels?include_ancestor_groups=false' | jq -r '.[]|.name'
-}
-
-# Just issue title
-glabititle() {
-  glab issue view $1 --output json | jq -r ".title"
-}
-
-
-# Find issues by glab criteria, outputting the iid and full title
-glabilist() {
-  glab issue list $@ --output json | jq -r ".[] | \"\(.iid|tostring)\t\(.title)\""
-}
-
-
-# Find issues by any string in the title
-glabifind() {
-  glab issue list --output json | jq -r ".[] | select(.title | test(\"$1\"; \"i\")) | \"\(.iid|tostring)\t\(.title)\""
-}
-
-# Combine glab with busy - update description for the current issue
-glabiupbusy() {
-  glab issue update $(busy get gitlab) --description -
-}
-
-
-glabi2wip() {
-  glab api "projects/:id/issues/$1" | jq -r '.description' > WIP.md
-}
-
-glabwip2i() {
-  glab issue update $1 --description "$(cat WIP.md)"
-}
-
-
-brname() {
-  python3 -c "import re;print(re.sub(r'[^a-zA-Z0-9]+', '-','$1'.lower()))"
-}
-
-# Open CI editor in browser
-
-glciedit () {
-  open "https://${PWD#${HOME}/}/-/ci/editor?branch_name=$(git branch --show-current)"
-}
-
-# Run CI
-
-glstatus () {
-  echo | glab ci status --branch $(git log -1 --pretty=format:%H)
-}
-
-gltrace () {
-  while true
-    do glab ci trace --branch $(git log -1 --pretty=format:%H) || return
-  done
-}
-
-glrun() {
-  glab ci run || return
-  gltrace
-}
-
-glmerge() {
-  glab mr merge -sy &&
-  if [ -s ".target-branch" ]; then
-    TARGET=$(cat .target-branch)
-  else
-    TARGET="main"
-  fi
-  sleep 2
-  git checkout $TARGET &&
-  git pull &&
-  sleep 2 &&
-  gltrace
-}
-
-
-# Push changes and stat CI
-
-glpush() {
-  git status
-  MESSAGE="$1"
-  echo "\033[0;32m$MESSAGE\033[0m"
-  echo -n "Perform git add, commit, and push? [OK]: "
-  read
-  git add -A
-  git commit -m "$MESSAGE"
-  git push
-  sleep 5
-  gltrace
-}
-
-# ... Repeating previous commit msg
-
-upush() {
-  glpush "$(git log -1 --pretty=%B)"
-}
-
-# ... or using Busy
-
-bpush() {
-  glpush "$(busy base $1)"
-}
-
-
-# Find a directory
-alias finddir="find . -type d -name "
 
 
 # Where is Python?
@@ -504,53 +287,29 @@ whereispython() {
   python3 -c "import pathlib;print(pathlib.Path(pathlib.__file__).parent)"
 }
 
-# Set up chruby to select Ruby versions
-
-#CHRUBY_DIR=$(dirname $(which chruby-exec))/../share/chruby
-#if [ "$CHRUBY_DIR" ] && [ -d $CHRUBY_DIR ]; then
-#  source $CHRUBY_DIR/chruby.sh
-#  source $CHRUBY_DIR/auto.sh
-#fi
-
 
 # Set time zone
 
 export TZ="America/Vancouver"
 
 
-# Docker commands that include the current project
+# Run shell inside podman with the local directory at /app
 
-dkr-sh() {
-  docker run -it --entrypoint /bin/sh -v "$(pwd):/app" $1
+pod-sh() {
+  podman run -it --entrypoint /bin/sh -v "$(pwd):/app" $1
 }
 
 dkr-bash() {
-  docker run -it -v "$(pwd):/app" $1 /bin/bash
+  podman run -it -v "$(pwd):/app" $1 /bin/bash
 }
 
-dkr-tools() {
-  OP_ITEM_AWS="AWS sandbox (GitLab)"
-  AWS_ACCESS_KEY_ID=$(op item get "$OP_ITEM_AWS" --vault Private --fields label="aws-access-key-id")
-  AWS_SECRET_ACCESS_KEY=$(op item get "$OP_ITEM_AWS" --vault Private --fields label="aws-secret-access-key")
-  if [ $# -eq 0 ]; then
-    AWS_DEFAULT_REGION="us-west-2"
-  else
-    AWS_DEFAULT_REGION="$1"
-  fi
-  docker run -it -v "$(pwd):/app" \
-    -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
-    -e AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION \
-    -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
-    registry.gitlab.com/fpotter/ops/tools:latest /bin/bash
-}
 
-dkr-mdbook() {
-  docker run -it -v "$(pwd):/app" -p 3000:3000 registry.gitlab.com/procicd/lib/mdbook:4 mdbook serve app -n 0.0.0.0
-}
+# Run mdbook for easy previews
 
 pod-mdbook() {
   podman run -it -v "$(pwd):/app" -p 3000:3000 registry.gitlab.com/procicd/lib/mdbook:4 mdbook serve app -n 0.0.0.0
 }
+
 
 # Include OS-specific settings
 
@@ -560,16 +319,21 @@ elif [[ "$(uname -s)" == "Linux" ]] && [ -s "$ZDOTDIR/.linux" ]; then
   source $ZDOTDIR/.linux
 fi
 
+
 # Include anything that's local to this machine (i.e. outside the zshrc repo)
 
 if [ -f "$HOME/.zlocal" ]; then
   source $HOME/.zlocal
 fi
+
 alias z2="emacs $HOME/.zlocal ; source $HOME/.zlocal"
 
+
 # Keep everything clean
+
 unset HISTFILE SAVEHIST
 
-# https://gitlab.com/wizlib/swytchit
-if [[ -n $SWYTCHITRC ]]; then source $SWYTCHITRC; fi
 
+# https://gitlab.com/wizlib/swytchit
+
+if [[ -n $SWYTCHITRC ]]; then source $SWYTCHITRC; fi

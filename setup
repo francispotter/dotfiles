@@ -1,2 +1,0 @@
-#!/bin/bash
-sudo cp $HOME/.dotfiles/commands/macos/preview /usr/local/bin/

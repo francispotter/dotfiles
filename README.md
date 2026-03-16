@@ -27,6 +27,9 @@ So to take full advantage of the `z` command, most users would need to fork the 
 ## Installation
 
 ```
-curl https://lab.shelbourne.ca/ops/dotfiles/-/raw/main/install.sh | sh
+curl https://raw.githubusercontent.com/francispotter/dotfiles/HEAD/install.sh | bash
 ```
 
+Note the iTerm keymap must be imported into iTerm if desired.
+
+The .keymap file is for hard-wired linux consoles.
