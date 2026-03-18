@@ -299,7 +299,7 @@ pod-sh() {
   podman run -it --entrypoint /bin/sh -v "$(pwd):/app" $1
 }
 
-dkr-bash() {
+pod-bash() {
   podman run -it -v "$(pwd):/app" $1 /bin/bash
 }
 
