@@ -82,7 +82,7 @@ restore() {
 # Edit a file in a Git repo, keeping it synced with a simple commit message
 
 gedit() {
-  DIR="${1%/*}"
+  DIR="$(dirname "$(readlink -f "$1")")"
   git -C $DIR pull || return
   edit $1
   git -C $DIR add $1
@@ -293,7 +293,7 @@ whereispython() {
 export TZ="America/Vancouver"
 
 
-# Run shell inside podman with the local directory at /app
+# Run shell inside podman with the local directory loaded at /app
 
 pod-sh() {
   podman run -it --entrypoint /bin/sh -v "$(pwd):/app" $1
