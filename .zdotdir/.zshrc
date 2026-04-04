@@ -11,10 +11,11 @@ alias xx="exit"
 alias finddir="find . -type d -name "
 
 
-# Git commits
+# Direct Dyngle commands
 
 ggp() { dyngle run git-commit-push-all-dot }
 ggk() { dyngle run git-commit-ai }
+jj() { dyngle run journalize-personal }
 
 # Next item in my queue
 nn() {
@@ -42,11 +43,6 @@ journalize() {
     edit "$1" -f end-of-buffer
 }
 
-# Edit the home journal
-
-jj() {
-    journalize "$HOME/journal/$(date +%Y)/$(date +%Y%m)-journal.md"
-}
 
 # Edit the local journal for a project (probably in Git)
 
