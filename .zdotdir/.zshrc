@@ -15,7 +15,7 @@ alias finddir="find . -type d -name "
 
 ggp() { dyngle run git-commit-push-all-dot }
 ggk() { dyngle run git-commit-ai }
-jj() { dyngle run journalize-personal }
+jj() { dyngle run journalize-local }
 
 # Next item in my queue
 nn() {
