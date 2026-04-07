@@ -16,6 +16,7 @@ alias finddir="find . -type d -name "
 ggp() { dyngle run git-commit-push-all-dot }
 ggk() { dyngle run git-commit-ai }
 jj() { dyngle run journalize-local }
+jt() { dyngle run journalize-this }
 
 # Next item in my queue
 nn() {
@@ -41,13 +42,6 @@ journalize() {
         echo -e "\n# $DATE\n" >> "$1"
     fi
     edit "$1" -f end-of-buffer
-}
-
-
-# Edit the local journal for a project (probably in Git)
-
-jl() {
-    journalize "NOTEBOOK.md"
 }
 
 
