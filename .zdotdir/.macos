@@ -2,3 +2,8 @@ alias git=/opt/homebrew/bin/git
 if [ -f "/opt/homebrew/bin/brew" ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
+
+# ---- vs code ----
+edit() { code --new-window "$@" }
+ee ()  { code --new-window $@ }
+export EDITOR='code --new-window'

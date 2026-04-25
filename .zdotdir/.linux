@@ -1,1 +1,6 @@
 # sudo loadkeys $ZDOTDIR/.keymap
+
+# ---- emacs ----
+edit() { emacs "$@" }
+ee ()  { emacs $@ }
+export EDITOR=emacs

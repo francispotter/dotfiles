@@ -25,13 +25,6 @@ nn() {
   busy done
 }
 
-# ---- emacs ----
-
-edit() { emacs "$@" }
-ee ()  { emacs $@ }
-export EDITOR=emacs
-
-
 # ---- journal ----
 
 # Use a text file as a journal
@@ -320,7 +313,7 @@ if [ -f "$HOME/.zlocal" ]; then
   source $HOME/.zlocal
 fi
 
-alias z2="emacs $HOME/.zlocal ; source $HOME/.zlocal"
+alias z2="edit $HOME/.zlocal ; source $HOME/.zlocal"
 
 
 # Keep everything clean
