@@ -9,6 +9,7 @@ alias dr="dyngle run"
 alias ll="ls -al"
 alias xx="exit"
 alias finddir="find . -type d -name "
+alias ee="edit"
 
 
 # Direct Dyngle commands

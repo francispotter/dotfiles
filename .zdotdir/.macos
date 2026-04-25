@@ -3,7 +3,9 @@ if [ -f "/opt/homebrew/bin/brew" ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-# ---- vs code ----
-edit() { code --new-window "$@" }
-ee ()  { code --new-window $@ }
-export EDITOR='code --new-window'
+# ---- editor is vs code ----
+#  TODO: This should be in an install step
+
+echo '#!/bin/bash\ncode --new-window $@' > ~/.local/bin/edit
+chmod a+x ~/.local/bin/edit
+export EDITOR='edit'
