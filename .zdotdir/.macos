@@ -6,6 +6,6 @@ fi
 # ---- editor is vs code ----
 #  TODO: This should be in an install step
 
-echo '#!/bin/bash\ncode --new-window $@' > ~/.local/bin/edit
+echo '#!/bin/bash\ncode --new-window --wait $@' > ~/.local/bin/edit
 chmod a+x ~/.local/bin/edit
 export EDITOR='emacs'  # Ideally code here too but edit doesn't work with busy for some reason
