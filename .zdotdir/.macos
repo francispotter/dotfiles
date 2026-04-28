@@ -9,3 +9,6 @@ fi
 echo '#!/bin/bash\ncode --new-window --wait "$@"' > ~/.local/bin/edit
 chmod a+x ~/.local/bin/edit
 export EDITOR='emacs'  # Ideally code here too but edit doesn't work with busy for some reason
+
+
+alias google-chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
