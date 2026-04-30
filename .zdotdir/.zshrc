@@ -314,6 +314,12 @@ if [ -f "$HOME/.zlocal" ]; then
   source $HOME/.zlocal
 fi
 
+# Source secrets if present
+
+if [ -f "$HOME/.secrets" ]; then
+  source $HOME/.secrets
+fi
+
 alias z2="edit $HOME/.zlocal ; source $HOME/.zlocal"
 
 
