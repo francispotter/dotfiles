@@ -315,9 +315,15 @@ if [ -f "$HOME/.zlocal" ]; then
 fi
 
 # Source secrets if present
+# Supports both KEY=value (exported automatically) and export KEY=value formats
 
 if [ -f "$HOME/.secrets" ]; then
-  source $HOME/.secrets
+  first=$(grep -v '^\s*#' "$HOME/.secrets" | grep -v '^\s*$' | head -1)
+  if [[ "$first" == export\ * ]]; then
+    source "$HOME/.secrets"
+  else
+    set -a; source "$HOME/.secrets"; set +a
+  fi
 fi
 
 alias z2="edit $HOME/.zlocal ; source $HOME/.zlocal"
