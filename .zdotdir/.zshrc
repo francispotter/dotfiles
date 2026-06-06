@@ -244,13 +244,13 @@ title() {
 
 # Change title with SSH
 
-ssh() {
-   /usr/bin/ssh "$@"
-   title "Z shell"
-}
+# ssh() {
+#    /usr/bin/ssh "$@"
+#    title "Z shell"
+# }
 
 # This seems a little lame
-title "Z shell"
+# title "Z shell"
 
 
 # Support pipx applications
