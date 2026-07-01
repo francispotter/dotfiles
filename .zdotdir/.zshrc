@@ -7,10 +7,13 @@
 
 handle-screenshots() {
   local dir="$1"
-  for file in "$1"/*.png; do
+  for file in "$dir"/*.png; do
     [[ -e "$file" ]] || continue
     dyngle run rename-screenshot "$file"
-    dyngle run file-to-md "$file".md
+  done
+  for file in "$dir"/*.png; do
+    [[ -e "$file" ]] || continue
+    dyngle run file-to-md "$file"
   done
 }
 
