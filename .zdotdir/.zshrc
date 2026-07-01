@@ -5,7 +5,7 @@
 
 # Really Dyngle should handle directories and loops
 
-handle-screenshot() {
+handle-screenshots() {
   local dir="$1"
   for file in "$1"/*.png; do
     [[ -e "$file" ]] || continue
