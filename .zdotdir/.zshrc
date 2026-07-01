@@ -3,6 +3,19 @@
 # YMMV - Some settings might only apply if you install all the same tools
 
 
+# Really Dyngle should handle directories and loops
+
+handle-screenshot() {
+  local dir="$1"
+  for file in "$1"/*.png; do
+    [[ -e "$file" ]] || continue
+    dyngle run rename-screentshot "$file"
+    dyngle run file-to-md "$file".md
+  done
+}
+
+
+
 # Easy-to-type shortcuts
 
 alias dr="dyngle run"
