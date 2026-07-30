@@ -8,6 +8,7 @@
 handle-screenshots() {
   local dir="$1"
   for file in "$dir"/Screenshot\ *.png; do
+    echo "$file"
     [[ -e "$file" ]] || continue
     dyngle run rename-screenshot "$file"
   done
