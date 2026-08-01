@@ -27,6 +27,7 @@ alias ll="ls -al"
 alias xx="exit"
 alias finddir="find . -type d -name "
 alias ee="edit"
+alias oc="opencode"
 
 
 # Direct Dyngle commands
