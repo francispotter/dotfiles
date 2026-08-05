@@ -32,8 +32,8 @@ alias oc="opencode"
 
 # Direct Dyngle commands
 
-ggp() { dyngle run git-commit-push-all-dot }
-ggk() { dyngle run git-commit-ai }
+ggp() { dyngle run git-commit-push-all-dot "$@" }
+ggk() { dyngle run git-commit-ai "$@" }
 jj() { dyngle run journalize-local }
 jt() { dyngle run journalize-this }
 
