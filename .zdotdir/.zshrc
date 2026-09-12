@@ -256,10 +256,14 @@ export PS1=$'%{$fg[green]%}${PROMPT_BASE} ($(whoami))%{$reset_color%} $(git_prom
 
 # Make it easy to change the title
 
-title() {
-   echo -ne "\033]0;$*\007"
+title () {
+    if [ -n "$TMUX" ]; then
+        # Wrap in tmux DCS passthrough so it reaches the outer terminal
+        printf '\ePtmux;\e\033]0;%s\007\e\\' "$*"
+    else
+        printf '\033]0;%s\007' "$*"
+    fi
 }
-
 # Change title with SSH
 
 # ssh() {
