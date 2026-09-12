@@ -259,7 +259,8 @@ export PS1=$'%{$fg[green]%}${PROMPT_BASE} ($(whoami))%{$reset_color%} $(git_prom
 title () {
     if [ -n "$TMUX" ]; then
         # Wrap in tmux DCS passthrough so it reaches the outer terminal
-        printf '\ePtmux;\e\033]0;%s\007\e\\' "$*"
+        # Each ESC inside the passthrough must be doubled, and use \a not \007
+        printf '\ePtmux;\e\e]0;%s\a\e\\' "$*"
     else
         printf '\033]0;%s\007' "$*"
     fi
