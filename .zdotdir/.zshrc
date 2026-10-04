@@ -265,15 +265,6 @@ title () {
         printf '\033]0;%s\007' "$*"
     fi
 }
-# Change title with SSH
-
-# ssh() {
-#    /usr/bin/ssh "$@"
-#    title "Z shell"
-# }
-
-# This seems a little lame
-# title "Z shell"
 
 
 # Support pipx applications
