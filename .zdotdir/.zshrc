@@ -351,3 +351,11 @@ unset HISTFILE SAVEHIST
 # https://gitlab.com/wizlib/swytchit
 
 if [[ -n $SWYTCHITRC ]]; then source $SWYTCHITRC; fi
+
+
+# Keep ~/.local/bin first on PATH (e.g. so the read-only sed wrapper wins).
+# Must stay at the end, after anything else that prepends (brew, cargo...).
+# typeset -U dedupes, keeping the first occurrence.
+
+typeset -U path
+path=("$HOME/.local/bin" $path)

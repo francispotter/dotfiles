@@ -1,0 +1,21 @@
+#!/bin/bash
+# Read-only sed for macOS.
+#
+# Runs /usr/bin/sed inside a sandbox that denies all file writes, so neither
+# in-place editing (-i / -I) nor the "w" command can modify files. Reading
+# files and writing to stdout/stderr (and pipes/redirects set up by the
+# calling shell) still work normally.
+
+# Give a clear error for in-place flags instead of a cryptic sandbox failure.
+# Optstring mirrors macOS sed, so option clusters like -Ei are handled.
+while getopts ":EHI:ae:f:i:lnru" opt; do
+  case "$opt" in
+    i|I)
+      echo "sed: in-place editing (-$opt) is disabled; this sed is read-only" >&2
+      exit 1
+      ;;
+  esac
+done
+
+exec /usr/bin/sandbox-exec -p '(version 1)(allow default)(deny file-write*)' \
+  /usr/bin/sed "$@"

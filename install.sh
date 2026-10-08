@@ -34,6 +34,9 @@ fi
 if [ "$(uname)" = "Darwin" ]; then
   sudo chsh -s /bin/zsh $(whoami)
   sudo cp $HOME/.dotfiles/commands/macos/preview /usr/local/bin/
+  # Read-only sed wrapper (~/.local/bin is put first on PATH in .zshrc)
+  mkdir -p $HOME/.local/bin
+  ln -sf $HOME/.dotfiles/commands/macos/sed $HOME/.local/bin/sed
 fi
 
 exec zsh
