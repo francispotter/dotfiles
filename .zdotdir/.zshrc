@@ -269,7 +269,7 @@ title () {
 
 # Support pipx applications
 
-export PATH="$PATH:$HOME/.local/bin"
+export PATH="$HOME/.local/bin:$PATH"
 
 
 # Support Rust/Cargo
