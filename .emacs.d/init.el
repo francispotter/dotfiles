@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t; -*-
 ;; Personal Emacs setup
 
 (require 'package)

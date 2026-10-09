@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t; -*-
 (defun forward-word-nomark ()
   "Clear the mark and move point forward by one word."
   (interactive)
