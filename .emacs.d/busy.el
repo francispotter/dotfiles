@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t; -*-
 ;; Functions to work with https://busy.steamwiz.io
 
 (defun busy ()

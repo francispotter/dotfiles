@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t; -*-
 ; A personal style of indention and tab control. Uses tab-width to determine
 ; column for tabbing. If a region is active, then shift the whole region left
 ; or right to the next tab stop, based on the leftmost occupied column in the
