@@ -270,7 +270,7 @@ title () {
 # Support pipx applications
 
 export PATH="$HOME/.local/bin:$PATH"
-
+export PIP_NO_CACHE_DIR=1
 
 # Support Rust/Cargo
 
